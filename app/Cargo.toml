@@ -1,0 +1,13 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+itertools = "0.12.1"
+png = "0.17.13"
+cairo-rs = { version = "0.19.2", features = ["png"] }
+
+[[bin]]
+name = "ara"
+path = "src/main.rs"

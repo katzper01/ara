@@ -9,8 +9,6 @@ chmod +x install.sh
 ./install.sh
 ```
 
-If you get errors with copying the executable, run with `sudo`.
-
 ## Usage
 
 ```
