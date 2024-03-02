@@ -1,6 +1,7 @@
 use itertools::Itertools;
 use std::fs::read_to_string;
 
+#[allow(dead_code)]
 pub fn parse_output(output: &str) -> Vec<(u32, u32)> {
     output
         .split("\n")
@@ -15,6 +16,7 @@ pub fn parse_output(output: &str) -> Vec<(u32, u32)> {
         .collect()
 }
 
+#[allow(dead_code)]
 pub fn read_graph_edges(filename: &str) -> Vec<(u32, u32)> {
     read_to_string(filename)
         .expect("Failed to open input file.")

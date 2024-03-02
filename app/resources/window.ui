@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="AraWindow" parent="GtkApplicationWindow">
+    <property name="title">Ara</property>
+    <property name="default_width">640</property>
+    <property name="default_height">640</property>
+    <child>
+      <object class="GtkDrawingArea" id="drawing_area">
+        <property name="margin-top">20</property>
+        <property name="margin-bottom">20</property>
+        <property name="margin-start">20</property>
+        <property name="margin-end">20</property>  
+      </object>
+    </child>
+  </template>
+</interface>

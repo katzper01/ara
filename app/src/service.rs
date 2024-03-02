@@ -4,6 +4,7 @@ use std::process::Command;
 use crate::io::{parse_output, read_graph_edges};
 use crate::plane_graph::PlaneGraph;
 
+#[allow(dead_code)]
 pub fn build_plane_graph_from_file(input_file_path: &str) -> Result<PlaneGraph, Error> {
     let edges: Vec<(u32, u32)> = read_graph_edges(input_file_path);
     let output = call_ara_service(input_file_path);
