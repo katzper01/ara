@@ -1,8 +1,11 @@
+use std::cell::RefCell;
+
 use cairo::Context;
+use glib::clone;
 use glib::subclass::InitializingObject;
-use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate, DrawingArea};
+use gtk::{glib, CompositeTemplate, DrawingArea, Label};
+use gtk::{prelude::*, Button};
 
 use crate::{draw::draw_embedding, plane_graph::PlaneGraph};
 
@@ -10,7 +13,13 @@ use crate::{draw::draw_embedding, plane_graph::PlaneGraph};
 #[template(resource = "/ara/window.ui")]
 pub struct Window {
     #[template_child]
+    pub select_file_button: TemplateChild<Button>,
+    #[template_child]
+    pub selected_file_label: TemplateChild<Label>,
+    #[template_child]
     pub drawing_area: TemplateChild<DrawingArea>,
+
+    pub selected_file_path: RefCell<Option<String>>,
 }
 
 #[glib::object_subclass]
@@ -33,6 +42,15 @@ impl ObjectImpl for Window {
     fn constructed(&self) {
         self.parent_constructed();
 
+        self.obj().set_selected_file(None);
+
+        self.select_file_button
+            .connect_clicked(clone!(@weak self as window =>
+                move |_| {
+                window.obj()
+                    .set_selected_file(Some(String::from("/some/path/to/file")));
+            }));
+
         self.drawing_area.set_content_width(600);
         self.drawing_area.set_content_height(600);
 
@@ -44,7 +62,6 @@ impl ObjectImpl for Window {
 
         self.drawing_area.set_draw_func(
             move |_: &DrawingArea, context: &Context, width: i32, height: i32| {
-                // on_draw(da, context, width, height, graph.clone());
                 draw_embedding(context, width as f64, height as f64, &graph);
             },
         );
