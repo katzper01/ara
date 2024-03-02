@@ -25,3 +25,11 @@ a_m b_m
 ```
 
 Where `a_i b_i` are graph edges. Look inside `examples/` for clarification.
+
+## TODO
+
+* Builder for graph data class
+* Drag and drop feature
+* Custom colors of vertices/edges/background
+* Hide/show grid 
+* Schnyder wood visualization
