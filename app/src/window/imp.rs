@@ -1,13 +1,12 @@
 use std::cell::RefCell;
 
-use cairo::Context;
-use glib::clone;
-use glib::subclass::InitializingObject;
-use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate, DrawingArea, Label};
-use gtk::{prelude::*, Button};
-
 use crate::{draw::draw_embedding, plane_graph::PlaneGraph};
+use cairo::Context;
+use glib::subclass::InitializingObject;
+use gtk::prelude::*;
+use gtk::subclass::prelude::*;
+use gtk::Button;
+use gtk::{glib, CompositeTemplate, DrawingArea, Label};
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/ara/window.ui")]
@@ -42,14 +41,9 @@ impl ObjectImpl for Window {
     fn constructed(&self) {
         self.parent_constructed();
 
-        self.obj().set_selected_file(None);
+        self.obj().setup_signals();
 
-        self.select_file_button
-            .connect_clicked(clone!(@weak self as window =>
-                move |_| {
-                window.obj()
-                    .set_selected_file(Some(String::from("/some/path/to/file")));
-            }));
+        self.obj().set_selected_file(None);
 
         self.drawing_area.set_content_width(600);
         self.drawing_area.set_content_height(600);

@@ -1,8 +1,14 @@
 mod imp;
 
+use std::path::PathBuf;
+
+use glib::clone;
 use glib::Object;
+use gtk::gio::Cancellable;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::FileDialog;
 use gtk::{gio, glib, Application};
 
 glib::wrapper! {
@@ -17,8 +23,31 @@ impl Window {
         Object::builder().property("application", app).build()
     }
 
-    fn set_selected_file(&self, val: Option<String>) {
-        self.imp().selected_file_path.replace(val);
+    fn setup_signals(&self) {
+        self.imp()
+            .select_file_button
+            .connect_clicked(clone!(@weak self as window =>
+                move |_| {
+                    let file_dialog = FileDialog::new();
+                    file_dialog.open(
+                        Some(&window),
+                        Some(&Cancellable::new()),
+                        clone!(@weak window => move |result| {
+                            match result {
+                                Ok(file) => window.set_selected_file(
+                                    file.path()
+                                    .map(|path| String::from(path.to_str().unwrap()))
+                                ),
+                                Err(_) => {}
+                            };
+                        })
+                    );
+                }
+            ));
+    }
+
+    fn set_selected_file(&self, path: Option<String>) {
+        self.imp().selected_file_path.replace(path);
 
         let label = self
             .imp()
