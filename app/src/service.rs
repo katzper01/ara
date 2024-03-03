@@ -1,11 +1,9 @@
-use cairo::glib::Error;
 use std::process::Command;
 
 use crate::io::{parse_output, read_graph_edges};
 use crate::plane_graph::PlaneGraph;
 
-#[allow(dead_code)]
-pub fn build_plane_graph_from_file(input_file_path: &str) -> Result<PlaneGraph, Error> {
+pub fn build_plane_graph_from_file(input_file_path: &str) -> Option<PlaneGraph> {
     let edges: Vec<(u32, u32)> = read_graph_edges(input_file_path);
     let output = call_ara_service(input_file_path);
     let embedding = parse_output(&output);
@@ -16,7 +14,7 @@ pub fn build_plane_graph_from_file(input_file_path: &str) -> Result<PlaneGraph, 
         embedding,
     };
 
-    Ok(graph)
+    Some(graph)
 }
 
 fn call_ara_service(input_file_path: &str) -> String {
@@ -31,6 +29,5 @@ fn call_ara_service(input_file_path: &str) -> String {
 
     // TODO: If failed do something
     // for example return result
-
     output
 }

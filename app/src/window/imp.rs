@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 
-use crate::{draw::draw_embedding, plane_graph::PlaneGraph};
-use cairo::Context;
+use crate::plane_graph::PlaneGraph;
 use glib::subclass::InitializingObject;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -16,9 +15,12 @@ pub struct Window {
     #[template_child]
     pub selected_file_label: TemplateChild<Label>,
     #[template_child]
+    pub draw_button: TemplateChild<Button>,
+    #[template_child]
     pub drawing_area: TemplateChild<DrawingArea>,
 
     pub selected_file_path: RefCell<Option<String>>,
+    pub graph: RefCell<Option<PlaneGraph>>,
 }
 
 #[glib::object_subclass]
@@ -45,20 +47,22 @@ impl ObjectImpl for Window {
 
         self.obj().set_selected_file(None);
 
+        self.graph.replace(None);
+
         self.drawing_area.set_content_width(600);
         self.drawing_area.set_content_height(600);
 
-        let graph = PlaneGraph {
-            n: 5,
-            edges: vec![(1, 2), (2, 3), (1, 3)],
-            embedding: vec![(0, 0), (1, 0), (0, 1)],
-        };
-
-        self.drawing_area.set_draw_func(
-            move |_: &DrawingArea, context: &Context, width: i32, height: i32| {
-                draw_embedding(context, width as f64, height as f64, &graph);
-            },
-        );
+        // let graph = PlaneGraph {
+        //     n: 5,
+        //     edges: vec![(1, 2), (2, 3), (1, 3)],
+        //     embedding: vec![(0, 0), (1, 0), (0, 1)],
+        // };
+        //
+        // self.drawing_area.set_draw_func(
+        //     move |_: &DrawingArea, context: &Context, width: i32, height: i32| {
+        //         draw_embedding(context, width as f64, height as f64, &graph);
+        //     },
+        // );
     }
 }
 

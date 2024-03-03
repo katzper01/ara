@@ -1,15 +1,18 @@
 mod imp;
 
-use std::path::PathBuf;
-
+use cairo::Context;
 use glib::clone;
 use glib::Object;
 use gtk::gio::Cancellable;
 use gtk::prelude::ObjectExt;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::DrawingArea;
 use gtk::FileDialog;
 use gtk::{gio, glib, Application};
+
+use crate::draw::draw_embedding;
+use crate::service::build_plane_graph_from_file;
 
 glib::wrapper! {
     pub struct Window(ObjectSubclass<imp::Window>)
@@ -24,6 +27,7 @@ impl Window {
     }
 
     fn setup_signals(&self) {
+        // Open file dialog button on click.
         self.imp()
             .select_file_button
             .connect_clicked(clone!(@weak self as window =>
@@ -44,6 +48,11 @@ impl Window {
                     );
                 }
             ));
+
+        // Draw button on click.
+        self.imp()
+            .draw_button
+            .connect_clicked(clone!(@weak self as window => move |_| window.draw_selected_graph()));
     }
 
     fn set_selected_file(&self, path: Option<String>) {
@@ -59,5 +68,25 @@ impl Window {
         self.imp()
             .selected_file_label
             .set_property("label", String::from("Selected file: ") + &label)
+    }
+
+    fn draw_selected_graph(&self) {
+        let graph = match self.imp().selected_file_path.clone().take() {
+            Some(path) => build_plane_graph_from_file(&path),
+            _ => None,
+        };
+
+        if graph.is_some() {
+            self.imp().drawing_area.set_draw_func(
+                move |_: &DrawingArea, context: &Context, width: i32, height: i32| {
+                    draw_embedding(
+                        context,
+                        width as f64,
+                        height as f64,
+                        &graph.clone().unwrap(),
+                    );
+                },
+            )
+        }
     }
 }

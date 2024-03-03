@@ -19,6 +19,11 @@
           <object class="GtkLabel" id="selected_file_label"/>
         </child>
         <child>
+          <object class="GtkButton" id="draw_button">
+            <property name="label">Draw</property>
+          </object>
+        </child>
+        <child>
           <object class="GtkDrawingArea" id="drawing_area"/>
         </child>
       </object>
