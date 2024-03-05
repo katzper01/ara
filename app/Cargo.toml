@@ -4,10 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+dioxus = { version = "0.5.0-alpha.0", features = ["desktop"] }
 itertools = "0.12.1"
-png = "0.17.13"
-cairo-rs = { version = "0.19.2", features = ["png"] }
-gtk = { version = "0.8.0", package = "gtk4", features = ["v4_12"] }
 
 [[bin]]
 name = "ara"
