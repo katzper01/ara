@@ -1,30 +1,45 @@
 #![allow(non_snake_case)]
 
-use dioxus::prelude::*;
+mod components;
+mod io;
+mod plane_graph;
+mod service;
 
-pub mod io;
-pub mod plane_graph;
-pub mod service;
+use crate::components::app::App;
+use dioxus_desktop::launch::launch;
+
+use log::LevelFilter;
 
 fn main() {
-    launch(App);
+    dioxus_logger::init(LevelFilter::Info).expect("failed to init logger");
+
+    launch(
+        App,
+        vec![],
+        dioxus_desktop::Config::new()
+            .with_custom_head(r#"<link rel="stylesheet" href="public/tailwind.css">"#.to_string()),
+    );
+    // launch(App);
 }
 
-fn App() -> Element {
-    let mut text = use_signal(|| String::from("Hello world!"));
+// fn draw_rectangle(cx: Scope) {
+//     let create_eval = use_eval(cx);
+//
+//     create_eval(
+//         r#"
+//         const canvas = document.getElementById('canvas1');
+//         const ctx = canvas.getContext('2d');
+//
+//         ctx.fillStyle = 'white';
+//         ctx.fillRect(10, 20, 150, 50);
+//         "#,
+//     )
+//     .unwrap();
+// }
 
-    rsx! {
-        SimpleDiv {
-            text
-        }
-        button {
-            onclick: move |_| *text.write() = String::from("Other text"),
-            "Change text"
-        }
-    }
-}
-
-#[component]
-fn SimpleDiv(text: Signal<String>) -> Element {
-    rsx! { div { "{text}" } }
-}
+// #[component]
+// fn SimpleDiv(text: Signal<String>) -> Element {
+//     rsx! {
+//         div { "{text}" }
+//     }
+// }

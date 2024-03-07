@@ -4,8 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-dioxus = { version = "0.5.0-alpha.0", features = ["desktop"] }
+dioxus = "0.5.0-alpha.0"
+dioxus-desktop = "0.5.0-alpha.0"
+dioxus-logger = "0.4.1"
 itertools = "0.12.1"
+log = "0.4.21"
 
 [[bin]]
 name = "ara"
