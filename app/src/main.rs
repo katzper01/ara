@@ -1,6 +1,8 @@
 #![allow(non_snake_case)]
 
 mod components;
+mod draw;
+
 mod io;
 mod plane_graph;
 mod service;

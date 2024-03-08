@@ -1,16 +1,17 @@
 use dioxus::prelude::*;
 
-use crate::plane_graph::PlaneGraph;
+pub static CANVAS_ID: &str = "main_canvas";
 
 #[component]
-pub fn Canvas(graph: Signal<PlaneGraph>) -> Element {
+pub fn Canvas() -> Element {
     rsx! {
         div {
             class: "h-full aspect-square p-8",
             canvas {
-                class: "size-full",
-                id: "canvas1",
-                border_width: "2",
+                // class: "w-full object-contain",
+                width: "300px",
+                height: "300px",
+                id: CANVAS_ID,
                 background_color: "#000000",
                 onmousedown: move |event| {
                     log::info!("mouse down ({:?})", event.data.coordinates().element().to_tuple())
