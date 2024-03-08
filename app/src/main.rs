@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 
 mod components;
-mod draw;
+mod painter;
 
 mod io;
 mod plane_graph;

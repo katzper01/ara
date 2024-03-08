@@ -4,3 +4,4 @@ static/
 target/
 dist/
 node_modules/
+public/
