@@ -1,14 +1,12 @@
 use dioxus::events::eval_provider;
 
-use crate::components::canvas::CANVAS_ID;
+use crate::constants::{CANVAS_ID, CANVAS_SIZE};
 
-static VERTEX_RADIUS: f64 = 20.0;
-
-pub fn paint_vertex(canvas_size: f64, x: f64, y: f64) {
+pub fn paint_vertex(x: f64, y: f64) {
     let run_js = eval_provider();
 
-    let pos_x = canvas_size * x;
-    let pos_y = canvas_size * y;
+    let pos_x = (CANVAS_SIZE as f64) * x;
+    let pos_y = (CANVAS_SIZE as f64) * y;
 
     let command = format!(
         r#"

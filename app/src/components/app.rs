@@ -3,9 +3,6 @@ use crate::components::config_panel::ConfigPanel;
 use crate::painter::paint_vertex;
 use crate::plane_graph::PlaneGraph;
 use dioxus::prelude::*;
-use dioxus_desktop::use_window;
-
-use std::cmp::min;
 
 #[component]
 pub fn App() -> Element {
@@ -15,25 +12,16 @@ pub fn App() -> Element {
         embedding: vec![(0, 0), (0, 1), (1, 0)],
     });
 
-    let window = use_window();
-    let window_size = use_memo(move || window.inner_size());
-    let window_width = use_memo(move || window_size.read().width);
-    let window_height = use_memo(move || window_size.read().height);
-
-    let canvas_size = use_signal(|| min(*window_width.read(), *window_height.read()) as f64);
-
-    use_effect(move || log::info!("{canvas_size}"));
-
     rsx! {
         div {
             class: "w-screen h-screen bg-gray-900 flex flex-row divide-gray-600 divide-x-2",
-            Canvas { canvas_size }
+            Canvas { /*canvas_size*/ }
             div {
-                class: "flex flex-col grow",
+                class: "flex flex-col items-center grow p-8",
                 ConfigPanel { }
                 button {
-                    class: "bg-blue-900 text-white m-1 rounded",
-                    onclick: move |_| paint_vertex(300.0, 50.0, 50.0),
+                    class: "bg-blue-900 text-white rounded m-4 w-48 h-10",
+                    onclick: move |_| paint_vertex(0.5, 0.5),
                     "Draw"
                 }
             }

@@ -1,18 +1,19 @@
 use dioxus::prelude::*;
 
-pub static CANVAS_ID: &str = "main_canvas";
+use crate::constants::{CANVAS_ID, CANVAS_SIZE, MAIN_PADDING};
 
 #[component]
-pub fn Canvas(canvas_size: Signal<f64>) -> Element {
-    let size = format!("{canvas_size}");
+pub fn Canvas() -> Element {
+    let canvas_side_length = format!("{CANVAS_SIZE}px");
+    let canvas_container_side_length = (CANVAS_SIZE + 2 * MAIN_PADDING).to_string() + "px";
 
     rsx! {
         div {
-            class: "h-full aspect-square p-8",
+            class: format!("h-full flex items-center min-w-[{canvas_container_side_length}] p-8"),
             canvas {
                 // class: "w-full object-contain",
-                width: size.clone(),
-                height: size.clone(),
+                width: canvas_side_length.clone(),
+                height: canvas_side_length.clone(),
                 id: CANVAS_ID,
                 background_color: "#000000",
                 onmousedown: move |event| {

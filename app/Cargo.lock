@@ -54,7 +54,10 @@ dependencies = [
  "dioxus-logger",
  "glib-build-tools",
  "itertools",
+ "js-sys",
  "log",
+ "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]
